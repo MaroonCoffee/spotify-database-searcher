@@ -18,7 +18,7 @@ public class Album {
     
     public static Album getAlbum(String n){
         for (int i=0; i<albums.size(); i++){
-            if (albums.get(i).name.equals(n)) return albums.get(i);
+            if (albums.get(i).name.toLowerCase().equals(n.toLowerCase())) return albums.get(i);
         }
         return null;
     }
@@ -45,6 +45,22 @@ public class Album {
     
     public ArrayList<Artist> getArtists(){
         return artists;
+    }
+    
+    public static ArrayList<Album> sortAlbumsAlphabetically(ArrayList<Album> albums){
+        int albumCount = albums.size();
+        for (int i=0; i<albumCount-1; i++){
+            int maxIndex = i;
+            for (int j=i+1; j < albumCount; j++){
+                String maxString = albums.get(maxIndex).getName().toLowerCase();
+                String indexString = albums.get(j).getName().toLowerCase();
+                if(indexString.compareTo(maxString)<0) maxIndex = j;
+            }
+            Album temp = albums.get(maxIndex);
+            albums.set(maxIndex, albums.get(i));
+            albums.set(i, temp);
+        }
+        return albums;
     }
     
     public String toString(){

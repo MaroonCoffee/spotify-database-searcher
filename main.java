@@ -5,6 +5,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
+import java.util.Collections;
 
 public class main
 {
@@ -100,39 +101,39 @@ public class main
         String searchPrompt = "You can search for the following ";
         ArrayList allMedia = new ArrayList();
         if (mode == 0){
-            allMedia = Song.getAllSongs();
+            allMedia = Song.sortSongsAlphabetically(Song.getAllSongs());;
             searchPrompt += "songs";
         }
         else if(mode == 1){
-            allMedia = Album.getAllAlbums();
+            allMedia = Album.sortAlbumsAlphabetically(Album.getAllAlbums());
             searchPrompt += "albums";
         }
         else if (mode == 2){
-            allMedia = Artist.getAllArtists();
+            allMedia = Artist.sortArtistsAlphabetically(Artist.getAllArtists());
             searchPrompt += "artists";
         }
         else if (mode == 3){
-            allMedia = Genre.getAllGenres();
+            allMedia = Genre.sortGenresAlphabetically(Genre.getAllGenres());
             searchPrompt += "genres";
         }
         else if (mode == 4){
-            allMedia = getAllSongsByArtist((Artist) modeResources.get(0));
+            allMedia = Song.sortSongsAlphabetically(getAllSongsByArtist((Artist) modeResources.get(0)));
             searchPrompt += "songs by " + ((Artist) modeResources.get(0));
         }
         else if (mode == 5){
-            allMedia = ((Album) modeResources.get(2)).getSongs();
+            allMedia = Song.sortSongsAlphabetically(((Album) modeResources.get(2)).getSongs());
             searchPrompt += "songs in " + ((Album) modeResources.get(2));
         }
         else if (mode == 6){
-            allMedia = ((Artist) modeResources.get(0)).getAlbums();
+            allMedia = Album.sortAlbumsAlphabetically(((Artist) modeResources.get(0)).getAlbums());
             searchPrompt += "albums by " + ((Artist) modeResources.get(0));
         }
         else if (mode == 7){
-            allMedia = getAllArtistsUnderGenre((Genre) modeResources.get(3));
+            allMedia = Artist.sortArtistsAlphabetically(getAllArtistsUnderGenre((Genre) modeResources.get(3)));
             searchPrompt += "artists under the " + ((Genre) modeResources.get(3)) + " genre";
         }
         else if (mode == 8){
-            allMedia = ((Artist) modeResources.get(0)).getGenres();
+            allMedia = Genre.sortGenresAlphabetically(((Artist) modeResources.get(0)).getGenres());
             searchPrompt += "genres explored by " + ((Artist) modeResources.get(0));
         }
         else if (mode == 9){
@@ -335,7 +336,6 @@ public class main
     
     //0=Popularity, 1=Duration, 2=Date
     public static ArrayList<Song> sortSongs(int mode, ArrayList<Song> songs){
-        ArrayList<Integer> indexes = new ArrayList<Integer>();
         int songCount = songs.size();
         for (int i=0; i<songCount-1; i++){
             int maxIndex = i;
@@ -350,7 +350,7 @@ public class main
                     maxStat = songs.get(maxIndex).getDuration();
                     indexStat = songs.get(j).getDuration();
                 }
-                else{
+                else if (mode == 2){
                     Date maxDate = songs.get(maxIndex).getDate();
                     Date indexDate = songs.get(j).getDate();
                     if (!(maxDate.isEarlier(indexDate))) maxIndex = j;

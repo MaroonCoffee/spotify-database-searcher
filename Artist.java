@@ -17,7 +17,7 @@ public class Artist {
     
     public static Artist getArtist(String n){
         for (int i=0; i<artists.size(); i++){
-            if (artists.get(i).name.equals(n)) return artists.get(i);
+            if (artists.get(i).name.toLowerCase().equals(n.toLowerCase())) return artists.get(i);
         }
         return null;
     }
@@ -57,6 +57,22 @@ public class Artist {
         }
         counter += features.size();
         return counter;
+    }
+    
+    public static ArrayList<Artist> sortArtistsAlphabetically(ArrayList<Artist> artists){
+        int artistCount = artists.size();
+        for (int i=0; i<artistCount-1; i++){
+            int maxIndex = i;
+            for (int j=i+1; j < artistCount; j++){
+                String maxString = artists.get(maxIndex).getName().toLowerCase();
+                String indexString = artists.get(j).getName().toLowerCase();
+                if(indexString.compareTo(maxString)<0) maxIndex = j;
+            }
+            Artist temp = artists.get(maxIndex);
+            artists.set(maxIndex, artists.get(i));
+            artists.set(i, temp);
+        }
+        return artists;
     }
     
     public String toString(){

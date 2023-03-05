@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Song {
+public class Song{
     private String name;
     private ArrayList<Artist> artists;
     private Album album;
@@ -27,7 +27,7 @@ public class Song {
     
     public static Song getSong(String n){
         for (int i=0; i<songs.size(); i++){
-            if (songs.get(i).name.equals(n)) return songs.get(i);
+            if (songs.get(i).name.toLowerCase().equals(n.toLowerCase())) return songs.get(i);
         }
         return null;
     }
@@ -82,6 +82,22 @@ public class Song {
     
     public String toString(){
         return name;
+    }
+    
+    public static ArrayList<Song> sortSongsAlphabetically(ArrayList<Song> songs){
+        int songCount = songs.size();
+        for (int i=0; i<songCount-1; i++){
+            int maxIndex = i;
+            for (int j=i+1; j < songCount; j++){
+                String maxString = songs.get(maxIndex).getName().toLowerCase();
+                String indexString = songs.get(j).getName().toLowerCase();
+                if(indexString.compareTo(maxString)<0) maxIndex = j;
+            }
+            Song temp = songs.get(maxIndex);
+            songs.set(maxIndex, songs.get(i));
+            songs.set(i, temp);
+        }
+        return songs;
     }
     
     //public getSongs{
